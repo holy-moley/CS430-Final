@@ -32,5 +32,14 @@
         });
     </script>
 
+    <div id="container"></div>
+    <script>
+        fetch("flask/query-results/sql-result.html")
+        .then(r => r.text())
+        .then(html => {
+            document.getElementById("container").innerHTML = html;
+        });
+    </script>
+
 </body>
 </html>
