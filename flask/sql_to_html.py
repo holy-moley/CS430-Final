@@ -10,13 +10,12 @@ def database_connect():
         user='root',
         password='enderman',
         port=3306,
-        database='classicmodels'
+        database='lib'
     )
     return mydb
 
 # Test command
 def send_query(mydb, command):
-    # command = "select * FROM customers WHERE city = \"Nantes\";"
 
     mycursor = mydb.cursor()
     mycursor.execute(command)
@@ -27,4 +26,4 @@ def send_query(mydb, command):
         dataframe2 = pd.DataFrame(list(i)).T
         dataframe = pd.concat([dataframe, dataframe2])
 
-    dataframe.to_html('static/query-results/sql-result.html')
+    dataframe.to_html('static/query-results/sql-result.html', header=False, index=False)

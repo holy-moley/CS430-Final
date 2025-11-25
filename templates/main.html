@@ -10,13 +10,14 @@
     <nav><p>Totally Real Library</p></nav>
     <div id="SearchDiv">
         <label>Search By title:</label>
-        <input type="text" id="SearchQuery">
+        <form method="POST">
+            <input name="title">
+            <button type="submit">Search</button>
+        </form>
     </div>
-    <form action="/search-results" method="get">
-        <button id="Search">Search</button>
-    </form>
-    <button id="filterButton">Show Filters</button>
 
+    <button id="filterButton">Show Filters</button>
+    
     <div id="filterList">
         <label><input type="checkbox"> No Books</label>
         <label><input type="checkbox"> No Movies</label>
@@ -36,14 +37,17 @@
 
     </script>
 
-    <div id="container"></div>
+    <div id="results">
     <script>
-        fetch("static/query-results/sql-result.html")
-        .then(r => r.text())
-        .then(html => {
-            document.getElementById("container").innerHTML = html;
-        });
+        window.addEventListener("load", () => {
+            fetch("static/query-results/sql-result.html")
+            .then(r => r.text())
+            .then(html => {
+                document.getElementById("results").innerHTML = html;
+            });
+    });
     </script>
+    </div>
 
 </body>
 </html>
