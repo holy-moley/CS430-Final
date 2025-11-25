@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome to the Library!</title>
+    <link rel="stylesheet" href="static/style.css">
+
+</head>
+<body>
+    <nav><p>Totally Real Library</p></nav>
+    <div id="SearchDiv">
+        <label>Search By title:</label>
+        <input type="text" id="SearchQuery">
+    </div>
+    <form action="/search-results" method="get">
+        <button id="Search">Search</button>
+    </form>
+    <button id="filterButton">Show Filters</button>
+
+    <div id="filterList">
+        <label><input type="checkbox"> No Books</label>
+        <label><input type="checkbox"> No Movies</label>
+        <label><input type="checkbox"> Available</label>
+    </div>
+
+    <script>
+        //Just makes the filter list expand. You can put in a JS file for the actual SQL integration, they're compatible. 
+        const btn = document.getElementById("filterButton");
+        const list = document.getElementById("filterList");
+        
+        btn.addEventListener("click", () => {
+            const visible = list.style.display === "block";
+            list.style.display = visible ? "none" : "block";
+            btn.textContent = visible ? "Show Filters" : "Hide Filters";
+        });
+
+    </script>
+
+    <div id="container"></div>
+    <script>
+        fetch("static/query-results/sql-result.html")
+        .then(r => r.text())
+        .then(html => {
+            document.getElementById("container").innerHTML = html;
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,49 @@
+/* Settings applied everywhere. */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: whitesmoke;
+    margin: 0;
+    background-color:slategrey;
+}
+
+
+#SearchDiv {
+    display: flex;
+    align-items: center;      
+    justify-content: center;
+    gap: 10px;
+    margin-top: 40px;
+}
+
+
+#filterButton {
+    display: block;
+    /*Left, right, and center are auto. Top has a consistent gap with the input.*/
+    margin: 15px auto;       
+}
+
+
+#filterList {
+    display: none;
+    margin: 10px auto;        
+    border: 1px solid #ccc;
+    padding: 10px;
+    width: 200px;
+    text-align: left;
+}
+
+#filterList label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+
+nav {
+    display: flex;
+    width: 100%;
+    background-color: darkslategrey;
+    padding: 0rem;
+    position: sticky;
+    top: 0;
+}
