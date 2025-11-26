@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Checkout Form!</title>
+    <link rel="stylesheet" href="/flask/static/style.css">
+
+</head>
+<body>
+    <nav><p>Totally Real Library</p></nav>
+    <form id="choose" class="niceform">
+        <label><input type="button" id="checkInButton" value="Check In"></label>
+        <label><input type="button" id="checkOutButton" value="Check Out"></label>
+    </form>
+<!--Current idea is that name and email are a composite key, but this can easily be switched to just have a user ID field instead.-->
+    <form id="checkout" class="niceform">
+        <p>Check out form</p>
+        <label>Item ID: <input type="text" id="itemIDOut"> </label>
+        <label>Borrower Name: <input type="text" id="userNameOut"></label>
+        <label>Borrower Email: <input type="text" id="emailOut"></label>
+        <label><input type="submit" id="submitBtnOut" value="Check out!"></label>
+    </form>
+    <form id="checkin" class="niceform">
+        <p>Check in form</p>
+        <label>Item ID: <input type="text" id="itemIDIn"> </label>
+        <label>Borrower Name: <input type="text" id="userNameIn"></label>
+        <label>Borrower Email: <input type="text" id="emailIn"></label>
+        <label><input type="submit" id="submitBtnIn" value="Check in!"></label>
+    </form>
+
+<script>
+    //forms/buttons
+    const chooseForm = document.getElementById("choose");
+    const checkInForm = document.getElementById("checkin");
+    const checkOutForm = document.getElementById("checkout");
+    const checkInButton = document.getElementById("checkInButton");
+    const checkOutButton = document.getElementById("checkOutButton");
+
+    //Check in listener
+    checkInButton.addEventListener("click", () => {
+        chooseForm.style.display = "none";  // hide buttons
+        checkInForm.style.display = "flex"; // show checkin form
+    });
+
+    //Check out listener
+    checkOutButton.addEventListener("click", () => {
+        chooseForm.style.display = "none";  // hide buttons
+        checkOutForm.style.display = "flex"; // show checkout form
+    });
+</script>
+
+</body>

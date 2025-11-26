@@ -31,6 +31,7 @@ body {
     padding: 10px;
     width: 200px;
     text-align: left;
+    background-color:rgb(69, 95, 95);
 }
 
 #filterList label {
@@ -54,4 +55,18 @@ nav {
     justify-content: center;
     gap: 10px;
     margin-top: 40px;
+}
+.niceform{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    margin: 20px;
+    gap:10px;
+}
+#checkin{
+    display:none;
+}
+#checkout{
+    display:none;
 }

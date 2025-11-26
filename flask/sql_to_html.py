@@ -8,7 +8,7 @@ def database_connect():
     mydb = mysql.connector.connect (
         host='localhost',
         user='root',
-        password='enderman',
+        password='peepy',
         port=3306,
         database='lib'
     )
@@ -26,4 +26,4 @@ def send_query(mydb, command):
         dataframe2 = pd.DataFrame(list(i)).T
         dataframe = pd.concat([dataframe, dataframe2])
 
-    dataframe.to_html('static/query-results/sql-result.html', header=False, index=False)
+    dataframe.to_html('flask/static/query-results/sql-result.html', header=False, index=False)
