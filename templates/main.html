@@ -7,24 +7,25 @@
 
 </head>
 <body>
-    <nav><p>Totally Real Library</p></nav>
+    <nav>
+        <p>Totally Real Library</p>
+        <button id="formButton" name="formButton" onclick="location.href='/checkform'">Check Out/Check In</button>
+    </nav>
+    <form method="POST">
     <div id="SearchDiv">
         <label>Search By title:</label>
-        <form method="POST">
             <input name="title">
-            <button type="submit">Search</button>
-        </form>
+            <button type="submit" name="action" value="search">Search</button>
     </div>
 
-    <button id="filterButton">Show Filters</button>
-    
+    <button id="filterButton" type="button">Show Filters</button>    
     <div id="filterList">
-        <label><input type="radio" name="exclude"> No Books</label>
-        <label><input type="radio" name="exclude"> No Movies</label>
-        <label><input type="radio" name="exclude"> Books and Movies</label>
-        <label><input type="checkbox"> Available</label>
+        <label><input type="radio" name="exclude" value="No Books"> No Books</label>
+        <label><input type="radio" name="exclude" value="No Movies"> No Movies</label>
+        <label><input type="radio" name="exclude" value="Books and Movies"> Books and Movies</label>
+        <label><input type="checkbox" name="available" value="Available"> Available</label>
     </div>
-
+    </form>
     <script>
         //Just makes the filter list expand. You can put in a JS file for the actual SQL integration, they're compatible. 
         const btn = document.getElementById("filterButton");
@@ -42,7 +43,7 @@
     <script>
         window.addEventListener("load", () => {
             fetch("static/query-results/sql-result.html")
-            .then(r => r.text())
+            .then(response => response.text())
             .then(html => {
                 document.getElementById("results").innerHTML = html;
             });
