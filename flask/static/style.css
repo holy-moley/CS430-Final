@@ -5,6 +5,7 @@ body {
     color: whitesmoke;
     margin: 0;
     background-color:slategrey;
+
 }
 
 
@@ -31,6 +32,7 @@ body {
     padding: 10px;
     width: 200px;
     text-align: left;
+    background-color:rgb(69, 95, 95);
 }
 
 #filterList label {
@@ -43,9 +45,16 @@ nav {
     display: flex;
     width: 100%;
     background-color: darkslategrey;
-    padding: 0rem;
+    padding: 0.1rem;
     position: sticky;
     top: 0;
+    align-items:center;
+    justify-content: space-between;
+}
+
+#formButton, #backButton {
+    padding: 6px 6px;
+    margin-right: 12px;
 }
 
 #results {
@@ -54,4 +63,49 @@ nav {
     justify-content: center;
     gap: 10px;
     margin-top: 40px;
+}
+.niceform{
+    display: flex;
+    padding: 20px;
+    align-items:flex-start;
+    flex-direction:column;
+    text-align: left;
+    margin: 20px;
+    gap:10px;
+}
+.aligned-text{
+    display: flex;
+    justify-content: center;
+    padding: 50px;
+}
+
+#choose {
+    display: flex;
+    padding: 50px;
+}
+#checkin{
+    display:none;
+}
+#checkout{
+    display:none;
+}
+
+/* Table styling for SQL query results */
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    width: 200px;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+th {
+    text-align: center;
 }

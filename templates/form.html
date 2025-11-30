@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Checkout Form!</title>
+    <link rel="stylesheet" href="static/style.css">
+
+</head>
+<body>
+    <nav>
+        <p>Totally Real Library</p>
+        <button id="backButton" name="backButton" onclick="location.href='/'">Back to Search</button>
+    </nav>
+    
+    <form id="choose" class="aligned-text">
+        <label><input type="button" id="checkInButton" value="Check In"></label>
+        <label><input type="button" id="checkOutButton" value="Check Out"></label>
+    </form>
+<!--Current idea is that name and email are a composite key, but this can easily be switched to just have a user ID field instead.-->
+    <div class="aligned-text">
+    <form id="checkout" class="niceform" method="POST">
+        <p>Check out form</p>
+        <label>Item ID: <input type="text" id="itemIDOut" name="itemIDOut"> </label>
+        <label>Borrower ID: <input type="text" id="borrowerIDOut" name="borrowerIDOut"></label>
+        <label><input type="submit" id="submitBtnOut" name="submitBtnOut" value="Check out!"></label>
+    </form>
+    <form id="checkin" class="niceform" method="POST">
+        <p>Check in form</p>
+        <label>Item ID: <input type="text" id="itemIDIn" name="itemIDIn"> </label>
+        <label>Borrower ID: <input type="text" id="borrowerIDIn" name="borrowerIDIn"></label>
+        <label><input type="submit" id="submitBtnIn" name="submitBtnIn" value="Check in!"></label>
+    </form>
+    </div>
+    <div class="aligned-text"><p> <pre>{{ output }}</pre> </p></div>
+<script>
+    //forms/buttons
+    const chooseForm = document.getElementById("choose");
+    const checkInForm = document.getElementById("checkin");
+    const checkOutForm = document.getElementById("checkout");
+    const checkInButton = document.getElementById("checkInButton");
+    const checkOutButton = document.getElementById("checkOutButton");
+
+    //Check in listener
+    checkInButton.addEventListener("click", () => {
+        chooseForm.style.display = "none";  // hide buttons
+        checkInForm.style.display = "flex"; // show checkin form
+    });
+
+    //Check out listener
+    checkOutButton.addEventListener("click", () => {
+        chooseForm.style.display = "none";  // hide buttons
+        checkOutForm.style.display = "flex"; // show checkout form
+    });
+</script>
+
+</body>
