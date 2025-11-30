@@ -61,6 +61,7 @@ def main():
   
   return render_template("main.html")
 
+
 @app.route('/checkform', methods=['GET','POST'])
 def checkForm():
   if request.method == 'POST':
@@ -68,17 +69,21 @@ def checkForm():
     if formOut == 'Check out!':
       itemID = request.form.get('itemIDOut')
       borrowerID = request.form.get('borrowerIDOut')
+      """
       if "B" in itemID:
-        queryString = 
+       queryString = 
       else:
         queryString = 
+        """
     else:
       itemID = request.form.get('itemIDIn')
       borrowerID = request.form.get('borrowerIDIn')
+      """
       if "B" in itemID:
         queryString = 
       else:
         queryString = 
+      """
 
 
     query.send_query(mydb, queryString)
