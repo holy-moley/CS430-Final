@@ -14,6 +14,19 @@ def database_connect():
     )
     return mydb
 
+def call_procedure(mydb, procedureName, procedureParams):
+    mycursor = mydb.cursor()
+    try:
+        mycursor.callproc(procedureName, procedureParams)
+        mydb.commit()
+        for result in mycursor.stored_results():
+                result.fetchall()
+        mycursor.execute('SELECT @outputMsg')
+        return mycursor.fetchone()[0]
+    except mysql.connector.Error as error:
+        mydb.rollback()
+        return "An ID you entered was invalid!"
+
 # Test command
 def send_query(mydb, command):
 

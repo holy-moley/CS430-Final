@@ -11,6 +11,7 @@
         <p>Totally Real Library</p>
         <button id="backButton" name="backButton" onclick="location.href='/'">Back to Search</button>
     </nav>
+    
     <form id="choose" class="aligned-text">
         <label><input type="button" id="checkInButton" value="Check In"></label>
         <label><input type="button" id="checkOutButton" value="Check Out"></label>
@@ -30,6 +31,7 @@
         <label><input type="submit" id="submitBtnIn" name="submitBtnIn" value="Check in!"></label>
     </form>
     </div>
+    <div class="aligned-text"><p> <pre>{{ output }}</pre> </p></div>
 <script>
     //forms/buttons
     const chooseForm = document.getElementById("choose");

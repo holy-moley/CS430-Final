@@ -3,6 +3,9 @@ from flask import Flask, redirect, request, render_template, url_for
 import sql_to_html as query
 
 app = Flask(__name__, template_folder="../templates")
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0 
+app.config['TEMPLATES_AUTO_RELOAD'] = True
+
 mydb = None
 
 def startup():
@@ -69,25 +72,25 @@ def checkForm():
     if formOut == 'Check out!':
       itemID = request.form.get('itemIDOut')
       borrowerID = request.form.get('borrowerIDOut')
-      """
-      if "B" in itemID:
-       queryString = 
+      procedureParams = [itemID, borrowerID]
+      if "B".lower() in itemID.lower():
+        procedureName = 'checkout_book'
       else:
-        queryString = 
-        """
+        procedureName = 'checkout_movie'
     else:
       itemID = request.form.get('itemIDIn')
       borrowerID = request.form.get('borrowerIDIn')
-      """
-      if "B" in itemID:
-        queryString = 
+      procedureParams = [itemID, borrowerID]
+      if "B".lower() in itemID.lower():
+        procedureName = 'checkin_book'
       else:
-        queryString = 
-      """
+        procedureName = 'checkin_movie'
+      
 
-
-    query.send_query(mydb, queryString)
-  return render_template("form.html")
+    outputResult = query.call_procedure(mydb, procedureName, procedureParams)
+  else:
+      outputResult = ""
+  return render_template("form.html", output=outputResult)
 
 # Start server
 if __name__ == '__main__':

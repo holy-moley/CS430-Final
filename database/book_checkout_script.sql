@@ -1,10 +1,10 @@
 
 USE `lib`;
-DROP PROCEDURE checkout_book;
+DROP PROCEDURE IF EXISTS checkout_book;
 
 DELIMITER //
 
-CREATE PROCEDURE checkout_book(IN inputBookID VARCHAR(7), IN inputUserID INT, OUT outputMsg VARCHAR(50))
+CREATE PROCEDURE checkout_book(IN inputBookID VARCHAR(7), IN inputUserID INT)
 BEGIN
 	SELECT 
     @available := BookAvailable
@@ -22,10 +22,10 @@ THEN
     WHERE BookID = inputBookID;
     
 	INSERT INTO `book_checkouts` (`CheckoutID`, `idUsers`, `BookID`, `CheckoutDate`, `ReturnDate`) 
-	VALUES (@checkoutID, inputUserID, inputBookID, NOW(), '2025-12-5');
-    SET outputMsg = "Success!";
+	VALUES (@checkoutID, inputUserID, inputBookID, CURDATE(), CURDATE() + INTERVAL 1 WEEK);
+    SET @outputMsg = "Success!";
 ELSE 
-	SET outputMSG = "Book unavailable!";
+	SET @outputMsg = "Book unavailable!";
 END IF;
 END //
 
