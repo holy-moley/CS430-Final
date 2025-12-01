@@ -49,7 +49,11 @@ nav {
     position: sticky;
     top: 0;
     align-items:center;
-    justify-content: space-between;
+    justify-content: space-around;
+}
+a{
+    color:mediumseagreen;
+    text-decoration:none;
 }
 
 #formButton, #backButton {

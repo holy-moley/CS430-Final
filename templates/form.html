@@ -18,18 +18,35 @@
     </form>
 <!--Current idea is that name and email are a composite key, but this can easily be switched to just have a user ID field instead.-->
     <div class="aligned-text">
-    <form id="checkout" class="niceform" method="POST">
-        <p>Check out form</p>
-        <label>Item ID: <input type="text" id="itemIDOut" name="itemIDOut"> </label>
-        <label>Borrower ID: <input type="text" id="borrowerIDOut" name="borrowerIDOut"></label>
-        <label><input type="submit" id="submitBtnOut" name="submitBtnOut" value="Check out!"></label>
-    </form>
-    <form id="checkin" class="niceform" method="POST">
-        <p>Check in form</p>
-        <label>Item ID: <input type="text" id="itemIDIn" name="itemIDIn"> </label>
-        <label>Borrower ID: <input type="text" id="borrowerIDIn" name="borrowerIDIn"></label>
-        <label><input type="submit" id="submitBtnIn" name="submitBtnIn" value="Check in!"></label>
-    </form>
+<form id="checkout" class="niceform" method="POST" action="/checkform">
+    <p>Check out form</p>
+    <label>
+        Item Type:
+        <select name="itemTypeOut" id="itemTypeOut">
+            <option value="book">Book</option>
+            <option value="movie">Movie</option>
+        </select>
+    </label>
+    <label>Item ID: <input type="text" id="itemIDOut" name="itemIDOut"></label>
+    <label>Borrower ID: <input type="text" id="borrowerIDOut" name="borrowerIDOut"></label>
+    <label><input type="submit" id="submitBtnOut" name="submitBtnOut" value="Check out!"></label>
+</form>
+
+<form id="checkin" class="niceform" method="POST" action="/checkform">
+    <p>Check in form</p>
+    <label>
+        Item Type:
+        <select name="itemTypeIn" id="itemTypeIn">
+            <option value="book">Book</option>
+            <option value="movie">Movie</option>
+        </select>
+    </label>
+    <label>Item ID: <input type="text" id="itemIDIn" name="itemIDIn"></label>
+    <label>Borrower ID: <input type="text" id="borrowerIDIn" name="borrowerIDIn"></label>
+    <label><input type="submit" id="submitBtnIn" name="submitBtnIn" value="Check in!"></label>
+</form>
+
+
     </div>
     <div class="aligned-text"><p> <pre>{{ output }}</pre> </p></div>
 <script>

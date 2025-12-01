@@ -1,98 +1,70 @@
-from ast import Constant
-from flask import Flask, redirect, request, render_template, url_for
+from flask import Flask, render_template, request
 import sql_to_html as query
 
-app = Flask(__name__, template_folder="../templates")
-app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0 
+app = Flask(__name__, template_folder="../templates", static_folder="static")
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 
 mydb = None
 
 def startup():
-  global mydb
-  mydb = query.database_connect()
+    global mydb
+    mydb = query.database_connect()
 
-#Main page logic
-@app.route('/', methods=['GET','POST'])
+# Main
+@app.route('/', methods=['GET', 'POST'])
 def main():
-  
-  if request.method == 'POST':
-    title = request.form.get('title')
-    exclude = request.form.get('exclude')
-    available = request.form.get('available')
+    if request.method == 'POST':
+        title = request.form.get('title', '').strip()
+        exclude = request.form.get('exclude', 'Books and Movies')
+        available = request.form.get('available', '')
 
-    #Query based on filters
-    if available == 'Available':
-      availablequery = " AND Available > 0"
-    else:
-      availablequery = ""
+        # Call the new search_items function
+        query.search_items(mydb, title, exclude, available)
 
-    if exclude == 'No Books':
-      queryString =  """
-                      SELECT * 
-                      FROM(
-                      SELECT 
-                      MovID as ID, MovTitle as Title, MovYear as Year, MovGen as Genre, 
-                      MovDir as Creator, MovForm as Media, MovAvailable as Available
-                      FROM Movies) as movieTable
-                      WHERE Title LIKE '%"""+ title +"%'" + availablequery + ";"
-    elif exclude == 'No Movies':
-      queryString =  """
-                      SELECT * 
-                      FROM(
-                      SELECT 
-                      BookID as ID, BookTitle as Title, BookYear as Year, BookGen as Genre, BookAuthor as Creator, 
-                      BookForm as Media, BookAvailable as Available 
-                      FROM Books) as bookTable
-                      WHERE Title LIKE '%"""+ title +"%'" + availablequery + ";"
-    else:
-      queryString =  """
-                      SELECT * 
-                      FROM(
-                      SELECT 
-                      BookID as ID, BookTitle as Title, BookYear as Year, BookGen as Genre, BookAuthor as Creator, 
-                      BookForm as Media, BookAvailable as Available 
-                      FROM Books
-                      UNION
-                      SELECT
-                      MovID as ID, MovTitle as Title, MovYear as Year, MovGen as Genre, 
-                      MovDir as Creator, MovForm as Media, MovAvailable as Available
-                      FROM Movies) AS unionTable
-                      WHERE Title LIKE '%"""+ title +"%'" + availablequery + ";"
-    
-    query.send_query(mydb, queryString)
-  
-  return render_template("main.html")
+    return render_template("main.html")
 
 
-@app.route('/checkform', methods=['GET','POST'])
+# Checkout/in form
+@app.route('/checkform', methods=['GET', 'POST'])
 def checkForm():
-  if request.method == 'POST':
-    formOut = request.form.get('submitBtnOut')
-    if formOut == 'Check out!':
-      itemID = request.form.get('itemIDOut')
-      borrowerID = request.form.get('borrowerIDOut')
-      procedureParams = [itemID, borrowerID]
-      if "B".lower() in itemID.lower():
-        procedureName = 'checkout_book'
-      else:
-        procedureName = 'checkout_movie'
-    else:
-      itemID = request.form.get('itemIDIn')
-      borrowerID = request.form.get('borrowerIDIn')
-      procedureParams = [itemID, borrowerID]
-      if "B".lower() in itemID.lower():
-        procedureName = 'checkin_book'
-      else:
-        procedureName = 'checkin_movie'
-      
+    output = ""
+    if request.method == 'POST':
+        if 'submitBtnOut' in request.form:
+            item_id = request.form.get('itemIDOut')
+            borrower_id = request.form.get('borrowerIDOut')
+            item_type = request.form.get('itemTypeOut')
+            output = query.checkout_item(mydb, item_id, borrower_id, item_type)
+        elif 'submitBtnIn' in request.form:
+            item_id = request.form.get('itemIDIn')
+            borrower_id = request.form.get('borrowerIDIn')
+            item_type = request.form.get('itemTypeIn')
+            output = query.checkin_item(mydb, item_id, borrower_id, item_type)
+    return render_template("form.html", output=output)
 
-    outputResult = query.call_procedure(mydb, procedureName, procedureParams)
-  else:
-      outputResult = ""
-  return render_template("form.html", output=outputResult)
+# Registration
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    message = ""
+    if request.method == 'POST':
+        name = request.form.get('name', '').strip()
+        email = request.form.get('email', '').strip()
+        message = query.register_user(mydb, name, email)
+    return render_template("register.html", message=message)
+
+# Checkout display
+@app.route('/checkouts')
+def checkouts():
+    book_rows = query.get_book_checkouts(mydb)
+    movie_rows = query.get_movie_checkouts(mydb)
+    return render_template("checkouts.html", book_rows=book_rows, movie_rows=movie_rows)
+
+# Home redirect
+@app.route('/home')
+def home():
+    return render_template("main.html")
 
 # Start server
 if __name__ == '__main__':
-  startup()
-  app.run(debug=True)
+    startup()
+    app.run(debug=True)

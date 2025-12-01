@@ -10,8 +10,11 @@
     <nav>
         <p>Totally Real Library</p>
         <button id="formButton" name="formButton" onclick="location.href='/checkform'">Check Out/Check In</button>
+        <a href="{{ url_for('register') }}">Register Users</a>
+        <a href="{{ url_for('checkouts') }}">View Checkouts</a>
+
     </nav>
-    <form method="POST">
+<form method="POST" action="/">
     <div id="SearchDiv">
         <label>Search By title:</label>
             <input name="title">

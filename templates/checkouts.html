@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Checkouts</title>
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+
+<nav>
+    <p>Totally Real Library</p>
+    <a href="{{ url_for('home') }}">Back</a>
+</nav>
+
+<h1>Current Checkouts</h1>
+
+<table class="result-table">
+    <thead>
+        <tr>
+            <th>Checkout ID</th>
+            <th>User ID</th>
+            <th>Item ID</th>
+            <th>Checkout Date</th>
+            <th>Return Date</th>
+            <th>Type</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        <!-- Book checkouts -->
+        {% for row in book_rows %}
+        <tr>
+            <td>B{{ row.CheckoutID }}</td>
+            <td>{{ row.idUsers }}</td>
+            <td>{{ row.BookID }}</td>
+            <td>{{ row.CheckoutDate }}</td>
+            <td>{{ row.ReturnDate }}</td>
+            <td>Book</td>
+        </tr>
+        {% endfor %}
+
+        <!-- Movie checkouts -->
+        {% for row in movie_rows %}
+        <tr>
+            <td>M{{ row.CheckoutID }}</td>
+            <td>{{ row.idUsers }}</td>
+            <td>{{ row.MovID }}</td>
+            <td>{{ row.CheckoutDate }}</td>
+            <td>{{ row.ReturnDate }}</td>
+            <td>Movie</td>
+        </tr>
+        {% endfor %}
+
+    </tbody>
+</table>
+
+</body>
+</html>
