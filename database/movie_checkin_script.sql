@@ -3,7 +3,7 @@ DROP PROCEDURE IF EXISTS checkin_movie;
 
 DELIMITER //
 
-CREATE PROCEDURE checkin_movie(IN inputMovieID INT, IN inputUserID INT)
+CREATE PROCEDURE checkin_movie(IN inputMovieID INT, IN inputUserID varchar(100))
 BEGIN
 SET @checkout_movie_entry = NULL;
 SELECT

@@ -4,7 +4,7 @@ DROP PROCEDURE IF EXISTS checkout_movie;
 
 DELIMITER //
 
-CREATE PROCEDURE checkout_movie(IN inputMovieID INT, IN inputUserID INT)
+CREATE PROCEDURE checkout_movie(IN inputMovieID INT, IN inputUserID varchar(100))
 BEGIN
 	SELECT 
     @available := MovAvailable

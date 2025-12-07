@@ -4,7 +4,7 @@ DROP PROCEDURE IF EXISTS checkout_book;
 
 DELIMITER //
 
-CREATE PROCEDURE checkout_book(IN inputBookID INT, IN inputUserID INT)
+CREATE PROCEDURE checkout_book(IN inputBookID INT, IN inputUserID varchar(100))
 BEGIN
 	SELECT 
     @available := BookAvailable

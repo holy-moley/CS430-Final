@@ -24,14 +24,14 @@ DROP TABLE IF EXISTS `movie_checkouts`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `movie_checkouts` (
   `CheckoutID` int NOT NULL AUTO_INCREMENT,
-  `idUsers` int DEFAULT NULL,
+  `idUsers` varchar(100) DEFAULT NULL,
   `MovID` int DEFAULT NULL,
   `CheckoutDate` date DEFAULT NULL,
   `ReturnDate` date DEFAULT NULL,
   PRIMARY KEY (`CheckoutID`),
   KEY `idUsers` (`idUsers`),
   KEY `MovID` (`MovID`),
-  CONSTRAINT `movie_checkouts_ibfk_1` FOREIGN KEY (`idUsers`) REFERENCES `users` (`idUsers`),
+  CONSTRAINT `movie_checkouts_ibfk_1` FOREIGN KEY (`idUsers`) REFERENCES `users` (`email`),
   CONSTRAINT `movie_checkouts_ibfk_2` FOREIGN KEY (`MovID`) REFERENCES `movies` (`MovID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
