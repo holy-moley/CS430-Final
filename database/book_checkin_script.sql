@@ -4,7 +4,7 @@ DROP PROCEDURE IF EXISTS checkin_book;
 
 DELIMITER //
 
-CREATE PROCEDURE checkin_book(IN inputBookID VARCHAR(7), IN inputUserID INT)
+CREATE PROCEDURE checkin_book(IN inputBookID INT, IN inputUserID INT)
 BEGIN
 SET @checkout_book_entry = NULL;
 SELECT
@@ -20,7 +20,7 @@ THEN
 	UPDATE books SET BookAvailable = BookAvailable + 1 
     WHERE BookID = inputBookID;
     
-    SET @outputMsg = "Success!";
+    SET @outputMsg = "Book checked in!";
 ELSE 
 	SET @outputMsg = "This user has not checked out this book!";
 END IF;

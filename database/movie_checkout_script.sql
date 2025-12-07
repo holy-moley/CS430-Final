@@ -4,7 +4,7 @@ DROP PROCEDURE IF EXISTS checkout_movie;
 
 DELIMITER //
 
-CREATE PROCEDURE checkout_movie(IN inputMovieID VARCHAR(7), IN inputUserID INT)
+CREATE PROCEDURE checkout_movie(IN inputMovieID INT, IN inputUserID INT)
 BEGIN
 	SELECT 
     @available := MovAvailable
@@ -23,7 +23,7 @@ THEN
     
 	INSERT INTO `movie_checkouts` (`CheckoutID`, `idUsers`, `MovID`, `CheckoutDate`, `ReturnDate`) 
 	VALUES (@checkoutID, inputUserID, inputMovieID, CURDATE(), CURDATE() + INTERVAL 1 WEEK);
-    SET @outputMsg = "Success!";
+    SET @outputMsg = "Movie checked out!";
 ELSE 
 	SET @outputMsg = "Movie unavailable!";
 END IF;

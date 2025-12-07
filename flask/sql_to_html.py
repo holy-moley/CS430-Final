@@ -6,7 +6,7 @@ def database_connect():
     mydb = mysql.connector.connect(
         host='localhost',
         user='root',
-        password='peepy',
+        password='enderman',
         port=3306,
         database='lib'
     )
@@ -29,6 +29,21 @@ def register_user(mydb, name, email):
         return "User registered successfully!"
     except mysql.connector.Error as err:
         return f"Database error: {err}"
+
+def call_procedure(mydb, procedureName, procedureParams):
+    mycursor = mydb.cursor()
+    try:
+        mycursor.callproc(procedureName, procedureParams)
+        mydb.commit()
+        for result in mycursor.stored_results():
+                result.fetchall()
+        mycursor.execute('SELECT @outputMsg')
+        return mycursor.fetchone()[0]
+        #cursor.close()
+    except mysql.connector.Error as error:
+        mydb.rollback()
+        return "An ID you entered was invalid!"
+
 
 # -------------------------
 # Checkout / Checkin

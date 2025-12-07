@@ -28,21 +28,29 @@ def main():
 # Checkout/in form
 @app.route('/checkform', methods=['GET', 'POST'])
 def checkForm():
-    output = ""
+    outputResult = ""
     if request.method == 'POST':
         if 'submitBtnOut' in request.form:
             item_id = request.form.get('itemIDOut')
             borrower_id = request.form.get('borrowerIDOut')
             item_type = request.form.get('itemTypeOut')
-            output = query.checkout_item(mydb, item_id, borrower_id, item_type)
+            if item_type == "book":
+                procedureName = "checkout_book"
+            else:
+                procedureName = "checkout_movie"
         elif 'submitBtnIn' in request.form:
             item_id = request.form.get('itemIDIn')
             borrower_id = request.form.get('borrowerIDIn')
             item_type = request.form.get('itemTypeIn')
-            output = query.checkin_item(mydb, item_id, borrower_id, item_type)
-    return render_template("form.html", output=output)
+            if item_type == "book":
+                procedureName = "checkin_book"
+            else:
+                procedureName = "checkin_movie"
+        procedureParams = [item_id, borrower_id]
+        outputResult = query.call_procedure(mydb, procedureName, procedureParams)
+    return render_template("form.html", output=outputResult)
 
-# Registration
+# Registration page
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     message = ""
@@ -52,7 +60,7 @@ def register():
         message = query.register_user(mydb, name, email)
     return render_template("register.html", message=message)
 
-# Checkout display
+# Checkout display page
 @app.route('/checkouts')
 def checkouts():
     book_rows = query.get_book_checkouts(mydb)
@@ -60,7 +68,7 @@ def checkouts():
     return render_template("checkouts.html", book_rows=book_rows, movie_rows=movie_rows)
 
 # Home redirect
-@app.route('/home')
+@app.route('/')
 def home():
     return render_template("main.html")
 

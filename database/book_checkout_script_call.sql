@@ -1,4 +1,3 @@
 USE `lib`;
 
-CALL checkout_book("B100", 100, @output);
-SELECT @output;
+CALL checkout_book(100, 100);

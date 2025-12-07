@@ -4,7 +4,7 @@ DROP PROCEDURE IF EXISTS checkout_book;
 
 DELIMITER //
 
-CREATE PROCEDURE checkout_book(IN inputBookID VARCHAR(7), IN inputUserID INT)
+CREATE PROCEDURE checkout_book(IN inputBookID INT, IN inputUserID INT)
 BEGIN
 	SELECT 
     @available := BookAvailable
@@ -23,7 +23,7 @@ THEN
     
 	INSERT INTO `book_checkouts` (`CheckoutID`, `idUsers`, `BookID`, `CheckoutDate`, `ReturnDate`) 
 	VALUES (@checkoutID, inputUserID, inputBookID, CURDATE(), CURDATE() + INTERVAL 1 WEEK);
-    SET @outputMsg = "Success!";
+    SET @outputMsg = "Book checked out!";
 ELSE 
 	SET @outputMsg = "Book unavailable!";
 END IF;
