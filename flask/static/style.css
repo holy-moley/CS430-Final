@@ -1,4 +1,4 @@
-/* Settings applied everywhere. */
+
 body {
     font-family: Arial, sans-serif;
     line-height: 1.6;
@@ -20,7 +20,7 @@ body {
 
 #filterButton {
     display: block;
-    /*Left, right, and center are auto. Top has a consistent gap with the input.*/
+    
     margin: 15px auto;       
 }
 
@@ -94,7 +94,7 @@ a{
     display:none;
 }
 
-/* Table styling for SQL query results */
+
 table {
     border-collapse: collapse;
     width: 100%;

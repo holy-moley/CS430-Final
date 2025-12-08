@@ -1,7 +1,7 @@
 import mysql.connector
 import pandas as pd
 
-# Connect to database hosted on local machine
+# Connect to database on local machine
 def database_connect():
     mydb = mysql.connector.connect(
         host='localhost',
@@ -12,23 +12,20 @@ def database_connect():
     )
     return mydb
 
-# -------------------------
-# User Registration
-# -------------------------
+
 def register_user(mydb, name, email):
-    """Insert a new user safely using parameterized query."""
     if not name or not email:
-        return "All fields are required."
+        return "Must enter name and email!"
 
     try:
-        cursor = mydb.cursor()
-        query = "INSERT INTO Users (Name, Email) VALUES (%s, %s)"
-        cursor.execute(query, (name, email))
+        mycursor = mydb.cursor()
+        query = "INSERT INTO Users (name, email) VALUES (%s, %s)"
+        mycursor.execute(query, (name, email))
         mydb.commit()
-        cursor.close()
+        mycursor.close()
         return "User registered successfully!"
-    except mysql.connector.Error as err:
-        return f"Database error: {err}"
+    except mysql.connector.Error as error:
+        return "There was an error registering the user!"
 
 def call_procedure(mydb, procedureName, procedureParams):
     mycursor = mydb.cursor()
@@ -44,31 +41,6 @@ def call_procedure(mydb, procedureName, procedureParams):
         mydb.rollback()
         return "An ID you entered was invalid!"
 
-
-# Search through movies/books
-def search_items(mydb, title, exclude=None, available=None):
-    cursor = mydb.cursor(dictionary=True)
-    queries = []
-
-    if exclude != "No Books":
-        queries.append("SELECT BookID AS ID, BookTitle AS Title, BookYear AS Year, BookGen AS Genre, BookAuthor AS Creator, BookForm AS Media, BookAvailable AS Available FROM Books")
-    if exclude != "No Movies":
-        queries.append("SELECT MovID AS ID, MovTitle AS Title, MovYear AS Year, MovGen AS Genre, MovDir AS Creator, MovForm AS Media, MovAvailable AS Available FROM Movies")
-
-    if not queries:
-        return []
-
-    union_query = " UNION ".join(queries)
-    sql = f"SELECT * FROM ({union_query}) AS combined WHERE Title LIKE %s"
-    params = [f"%{title}%"]
-    if available == "Available":
-        sql += " AND Available > 0"
-
-    cursor.execute(sql, tuple(params))
-    rows = cursor.fetchall()
-    cursor.close()
-    return rows
-
 # Get checkouts
 def get_book_checkouts(mydb):
     cursor = mydb.cursor(dictionary=True)
@@ -83,12 +55,9 @@ def get_movie_checkouts(mydb):
     rows = cursor.fetchall()
     cursor.close()
     return rows
+
 #search
 def search_items(mydb, title, exclude, available):
-    """
-    Search books/movies based on title, type, and availability,
-    write results to 'sql-result.html'.
-    """
     cursor = mydb.cursor(dictionary=True)
 
     title = title.strip() if title else ""
@@ -116,7 +85,7 @@ def search_items(mydb, title, exclude, available):
             if available == "Available":
                 query += " AND BookAvailable > 0"
 
-        else:  # Both books and movies
+        else: 
             query = """
                 SELECT BookID as ID, BookTitle as Title, BookYear as Year, BookGen as Genre,
                        BookAuthor as Creator, BookForm as Media, BookAvailable as Available
@@ -138,12 +107,11 @@ def search_items(mydb, title, exclude, available):
             if available == "Available":
                 query += " AND MovAvailable > 0"
 
-        # Prevent SQL injection
+        #Stop injection
         cursor.execute(query, tuple(params))
         rows = cursor.fetchall()
 
-        # Convert to DataFrame
-        import pandas as pd
+        #Convert to HTML
         df = pd.DataFrame(rows)
         if not df.empty:
             df.columns = rows[0].keys()
@@ -151,7 +119,7 @@ def search_items(mydb, title, exclude, available):
         else:
             html = pd.DataFrame(['No results found!']).to_html(index=False, header=False)
 
-        # Write HTML file for JS to fetch
+        #Style HTML and save it
         styled_html = f"""<link rel="stylesheet" href="../style.css">{html}"""
         with open('flask/static/query-results/sql-result.html', 'w', encoding='utf-8') as f:
             f.write(styled_html)
