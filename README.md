@@ -1,3 +1,6 @@
+A library database management system. Self hosted.
+To run, execute all database dump files in the "database" folder in MySQL Workbench. Create a Python environment and run requirements.txt. Then, change the database connection parameters to your own in sql-to-html.py. Finally, run server.py and enjoy!
+
 
 ```mermaid
 erDiagram
