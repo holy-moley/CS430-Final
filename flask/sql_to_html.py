@@ -14,8 +14,6 @@ def database_connect():
 
 
 def register_user(mydb, name, email):
-    if not name or not email:
-        return "Must enter name and email!"
 
     try:
         mycursor = mydb.cursor()
@@ -23,7 +21,7 @@ def register_user(mydb, name, email):
         mycursor.execute(query, (name, email))
         mydb.commit()
         mycursor.close()
-        return "User registered successfully!"
+        return "User registered!"
     except mysql.connector.Error as error:
         return "There was an error registering the user!"
 
